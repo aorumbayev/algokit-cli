@@ -120,7 +120,7 @@ jobs:
     name: Build and Upload Binaries
     if: ${{ github.ref_name == 'main' }}
     uses: ./.github/workflows/build-binaries.yaml
-    needs: ci-check-python
+    needs: release
     with:
       production_release: "true"
       python_version: "3.12"
@@ -128,7 +128,7 @@ jobs:
 
   cd-publish-release-packages:
     name: Release Binaries
-    needs: ["release", "build-and-upload-binaries"]
+    needs: build-and-upload-binaries
     if: ${{ github.ref_name == 'main' }} # Might want to adjust this to publish (pre-release) on merge as well.
     uses: ./.github/workflows/publish-release-packages.yaml
     with:
