@@ -120,7 +120,7 @@ jobs:
     strategy:
       matrix:
         platform:
-          - amd64
+          # - amd64
           - arm64
 
     steps:
@@ -175,10 +175,16 @@ jobs:
         run: |
           echo "SNAP_BINARY_PATH=$(find ${{ github.workspace }} -name '*.snap')" >> $GITHUB_ENV
 
-      - name: Publish snap
-        uses: snapcore/action-publish@v1
-        env:
-          SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_RELEASE_TOKEN }}
+      - name: Upload snap binary as artifact
+        uses: actions/upload-artifact@v2
         with:
-          snap: ${{ env.SNAP_BINARY_PATH }}
-          release: stable
+          name: snap-binary
+          path: ${{ env.SNAP_BINARY_PATH }}
+
+      # - name: Publish snap
+      #   uses: snapcore/action-publish@v1
+      #   env:
+      #     SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_RELEASE_TOKEN }}
+      #   with:
+      #     snap: ${{ env.SNAP_BINARY_PATH }}
+      #     release: stable
