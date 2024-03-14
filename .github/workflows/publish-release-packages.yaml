@@ -120,9 +120,7 @@ jobs:
     strategy:
       matrix:
         platform:
-          - i386
           - amd64
-          - armhf
           - arm64
 
     steps:
@@ -154,6 +152,8 @@ jobs:
       - name: Generate snapcraft.yaml
         run: |
           ./scripts/snap/create-snapcraft-yaml.sh ${{ github.workspace }} ${{ env.RELEASE_VERSION }} ${{ env.BINARY_PATH }} "stable"
+
+      - uses: docker/setup-qemu-action@v1
 
       - name: Upload snapcraft.yaml as reference artifact
         uses: actions/upload-artifact@v2
