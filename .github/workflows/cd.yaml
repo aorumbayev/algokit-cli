@@ -104,16 +104,14 @@ jobs:
             -v DEBUG \
             --define=version_source="commit" \
             --define=patch_without_tag=true \
-            --define=upload_to_repository=true \
+            --define=upload_to_repository=false \
             --define=branch=main \
             publish
           release_version="$(poetry run semantic-release print-version --current)"
           echo "RELEASE_VERSION=$release_version" >> $GITHUB_ENV
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          REPOSITORY_USERNAME: __token__
-          REPOSITORY_PASSWORD: ${{ secrets.PYPI_API_KEY }}
-
+      
       - name: Get release version
         shell: bash
         run: echo "RELEASE_VERSION=$RELEASE_VERSION" >> $GITHUB_OUTPUT
@@ -135,13 +133,4 @@ jobs:
       production_release: ${{ inputs.production_release }}
       python_version: "3.12"
       release_version: ${{ needs.release.outputs.release_version }}
-    secrets: inherit
-
-  cd-publish-release-packages:
-    name: Release binaries via distribution channels
-    needs: build-and-upload-binaries
-    if: ${{ github.ref_name == 'main' && inputs.production_release == 'true' }} # Might want to adjust this to publish (pre-release) on merge as well.
-    uses: ./.github/workflows/publish-release-packages.yaml
-    with:
-      artifactName: algokit-cli
     secrets: inherit
