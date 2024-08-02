@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v2.2.3 (2024-08-02)
+
+### Fix
+
+* Build binaries with the correct version information ([#3](https://github.com/aorumbayev/algokit-cli/issues/3)) ([`ba1235f`](https://github.com/aorumbayev/algokit-cli/commit/ba1235f9fa7c23819d3fb57e499d81f3cde46880))
+
 ## v2.2.2 (2024-07-29)
 
 
